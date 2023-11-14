@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Movie Ticket Order page - Welcome and choose a Movie</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Movie Ticket Shop App</h1>
+</header>
+<main>
+    <div>
+
+        <h2>Current movie:</h2>
+        <form action="/movies/add" method="POST">
+            <input id="id" type="hidden" name="id"
+                   th:value="(${movie} != null ? ${movie.getId()} : '')">
+
+            <label for="title">Title: </label>
+            <input type="text"
+                   th:value="(${movie} != null ? ${movie.getTitle()} : '')"
+                   id="title"
+                   name="title"
+                   required
+                   placeholder="Enter movie name"><br>
+            <label for="summary">Summary: </label>
+            <input type="text"
+                   th:value="(${movie} != null ? ${movie.getSummary()} : '')"
+                   required
+                   id="summary"
+                   name="summary"
+                   placeholder="Enter movie summary"><br>
+            <label for="rating">Rating: </label>
+            <input type="number"
+                   th:value="(${movie} != null ? ${movie.getRating()} : '')"
+                   required
+                   min="1"
+                   max="10"
+                   id="rating"
+                   name="rating"
+                   placeholder="Enter movie rating"><br>
+            <label for="prodName">Production: </label>
+                <select id="prodName" name="prodName">
+                    <option th:if="${movie} != null"
+                            th:selected="${movie.production}"
+                            th:each="production : ${productions}"
+                            th:value="${production.name}"
+                            th:text="${production.name}">
+                    </option>
+                    <option th:if="${movie} == null"
+                            th:each="production : ${productions}"
+                            th:value="${production.name}"
+                            th:text="${production.name}">
+                    </option>
+                </select><br>
+                <button type="submit" >Submit</button>
+                <a type="button" href="/movies">Back</a>
+        </form>
+
+    </div>
+
+</main>
+</body>
+</html>
