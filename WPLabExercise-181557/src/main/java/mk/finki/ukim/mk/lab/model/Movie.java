@@ -1,45 +1,31 @@
 package mk.finki.ukim.mk.lab.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
+@Entity
 public class Movie {
-
-    private int id;
-    private String title;
-    private String summary;
-    private double rating;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    String title;
+    String summary;
+    @ManyToOne(cascade  = CascadeType.PERSIST,fetch = FetchType.LAZY)
     private Production production;
+    double rating;
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TicketOrder> ticketOrders;
 
-    public Movie(String title, String summary, double rating,Production production) {
-        this.id = (int)(Math.random() * 1000) + 11;
-        this.title = title;
-        this.summary = summary;
-        this.rating = rating;
+    public Movie() {
+    }
+
+    public Movie(String title, String summary, double rating, Production production) {
         this.production = production;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
         this.summary = summary;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
         this.rating = rating;
     }
 }
